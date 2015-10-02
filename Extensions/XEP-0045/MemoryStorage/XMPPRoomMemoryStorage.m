@@ -658,13 +658,6 @@
 {
 	XMPPLogTrace();
 	AssertParentQueue();
-	
-	XMPPJID *msgJID = room.myRoomJID;
-	
-	XMPPRoomMessageMemoryStorageObject *roomMsg;
-	roomMsg = [[self.messageClass alloc] initWithOutgoingMessage:message jid:msgJID];
-	
-	[self addMessage:roomMsg];
 }
 
 - (void)handleIncomingMessage:(XMPPMessage *)message room:(XMPPRoom *)room
@@ -674,15 +667,6 @@
 	
 	XMPPJID *myRoomJID = room.myRoomJID;
 	XMPPJID *messageJID = [message from];
-	
-	if ([myRoomJID isEqualToJID:messageJID])
-	{
-		if (![message wasDelayed])
-		{
-			// Ignore - we already stored message in handleOutgoingMessage:room:
-			return;
-		}
-	}
 	
 	if ([self existsMessage:message])
 	{
